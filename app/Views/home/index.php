@@ -12,6 +12,11 @@
     <input name="name" placeholder="Your name" />
     <button type="submit">Send</button>
   </form>
+  <ul>
+    <?php foreach ($posts as $post) : ?>
+      <li><?= htmlspecialchars($post['content'], ENT_QUOTES, 'UTF-8') ?></li>
+    <?php endforeach; ?>
+  </ul>
   <script src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/js/app.js"></script>
 </body>
 </html>

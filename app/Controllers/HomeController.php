@@ -4,13 +4,16 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use Core\Controller;
+use App\Models\Post;
 
 final class HomeController extends Controller
 {
 	public function index(): string
 	{
 		$message = 'Welcome to the Home page';
-		return $this->render('home/index', compact('message'));
+		$posts = new Post();
+		$posts = $posts->all();
+		return $this->render('home/index', compact('message', 'posts'));
 	}
 
 	public function hello(string $name = 'World'): string
