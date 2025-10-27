@@ -5,27 +5,22 @@ namespace App\Controllers;
 
 use Core\Controller;
 use App\Models\Post;
+use App\Models\Group;
 
 final class HomeController extends Controller
 {
 	public function index(): string
 	{
-		$message = 'Welcome to the Home page';
-		$posts = new Post();
-		$posts = $posts->all();
-		return $this->render('home/index', compact('message', 'posts'));
+        $filters = [];
+        if (isset($_GET['group_id'])) { $filters['group_id'] = (int) $_GET['group_id']; }
+        if (isset($_GET['date'])) { $filters['date'] = (string) $_GET['date']; }
+        $posts = (new Post())->all($filters);
+        $groups = (new Group())->all();
+
+		return $this->render('home/index', compact('posts', 'groups'));
 	}
 
-	public function hello(string $name = 'World'): string
-	{
-		return "Hello, " . htmlspecialchars($name, ENT_QUOTES, 'UTF-8') . "!";
-	}
 
-	public function store(): string
-	{
-		$name = $_POST['name'] ?? 'anonymous';
-		return "Stored " . htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
-	}
 }
 
 

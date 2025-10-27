@@ -24,6 +24,7 @@ CREATE TABLE `persons` (
   `group_id` INT UNSIGNED NULL,
   `valid_from` DATE NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_person_base` (`base_id`), 
   KEY `idx_person_group` (`group_id`),
   KEY `idx_person_name` (`name`),
   KEY `idx_person_surname` (`surname`),
@@ -35,6 +36,7 @@ CREATE TABLE `persons` (
 CREATE TABLE `posts` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `person_base_id` INT UNSIGNED NOT NULL,
+  `title` VARCHAR(200) NOT NULL,
   `content` TEXT NOT NULL,
   `post_date` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
@@ -55,7 +57,7 @@ INSERT INTO `persons` (`base_id`, `name`, `surname`, `group_id`, `valid_from`) V
 (1003, 'Bob', 'Brown', NULL, '2024-02-10');
 
 -- Insert mock posts
-INSERT INTO `posts` (`person_base_id`, `content`, `post_date`) VALUES
-(1001, 'Hello from John', NOW()),
-(1002, 'Editorial note', NOW()),
-(1003, 'Viewer comment', NOW());
+INSERT INTO `posts` (`person_base_id`, `title`, `content`, `post_date`) VALUES
+(1001, 'Hello', 'Hello from John', NOW()),
+(1002, 'Editorial', 'Editorial note', NOW()),
+(1003, 'Comment', 'Viewer comment', NOW());
