@@ -9,7 +9,7 @@ FROM php:8.3-apache
 
 # Enable Apache modules and PHP extensions
 RUN a2enmod rewrite \
-	&& docker-php-ext-install pdo_mysql
+	&& docker-php-ext-install mysqli pdo_mysql
 
 WORKDIR /var/www/html
 
