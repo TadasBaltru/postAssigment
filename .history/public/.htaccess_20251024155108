@@ -1,0 +1,14 @@
+RewriteEngine On
+
+# Serve existing files/folders
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Don't rewrite asset requests
+RewriteRule ^assets/ - [L]
+
+# Front controller
+RewriteRule ^ index.php [QSA,L]
+
+

@@ -1,0 +1,14 @@
+.git
+.gitignore
+.history
+node_modules
+vendor
+composer.lock
+.env
+**/.DS_Store
+**/Thumbs.db
+docker-compose.yml
+Dockerfile
+apache
+
+

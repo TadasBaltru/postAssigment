@@ -1,0 +1,14 @@
+{
+  "name": "vendor/post-assessment-task",
+  "require": {
+    "php": "^8.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Core\\": "core/"
+    }
+  }
+}
+
+
