@@ -13,23 +13,11 @@ $(function() {
 			.replace(/'/g, '&#039;');
 	}
 
-	function renderRows(items) {
-		const $tbody = $('#postsTable tbody');
-		const rows = items.map(function (p) {
-			return '<tr>' +
-				'<td>' + Number(p.id) + '</td>' +
-				'<td>' + Number(p.person_base_id) + '</td>' +
-				'<td>' + escapeHtml(p.content) + '</td>' +
-				'<td>' + escapeHtml(p.post_date) + '</td>' +
-				'<td><button type="button" class="edit-btn" data-id="' + Number(p.id) + '" data-person="' + Number(p.person_base_id) + '" data-content="' + escapeHtml(p.content) + '" data-date="' + escapeHtml(p.post_date) + '">Edit</button></td>' +
-			'</tr>';
-		}).join('');
-		$tbody.html(rows);
-	}
+
     // Home page: filter to cards
     function loadCards(){
         const params = $('#homeFilter').serialize();
-        $.ajax({ url: BASE + '?' + params, dataType: 'html' })
+        $.ajax({ url: BASE + '/?partial=1&' + params, dataType: 'html' })
             .done(function(html){
                 const $grid = $(html).filter('#postsGrid');
                 if ($grid.length) {
@@ -81,20 +69,6 @@ $(function() {
         createOrUpdatePost();
       });
 
-    // After create/update, refresh manage posts table via partial
-    function refreshManageTable(){
-        var $table = $('body').find('table').first();
-        if ($table.length === 0) return;
-        $.get(BASE + '/posts', function(html){
-            // Replace table html
-            var $newTable = $(html).filter('table');
-            if ($newTable.length) {
-                $table.replaceWith($newTable);
-            }
-        });
-    }
-
-    // Hook into createOrUpdatePost completion to refresh UIs
     const _orig = createOrUpdatePost;
     createOrUpdatePost = function(){
         const $f = $('#postForm');
@@ -104,7 +78,8 @@ $(function() {
             .done(function (json) {
                 if (json && (json.ok || json.Success)) {
                     if(!id){ $f.trigger('reset'); }
-                    refreshManageTable();
+                    closeModal();
+                    loadCards();
                 } else {
                     alert((json && (json.error||json.message)) || 'Error');
                 }
@@ -118,9 +93,10 @@ $(function() {
     $(document).on('click', '[data-close]', closeModal);
     $(document).on('click', '.open-edit', function(){
         var $b = $(this);
+        console.log($b.data());
         $('#modalTitle').text('Edit Post');
         $('#postForm [name=id]').val($b.data('id'));
-        $('#postForm [name=title]').val($b.data('title'));
+        $('#postForm [name=post_date]').val($b.data('date'));
         $('#postForm [name=person_base_id]').val($b.data('person'));
         $('#postForm [name=content]').val($b.data('content'));
         var dt = String($b.data('date')||'').split(' ');
@@ -138,19 +114,15 @@ $(function() {
         var t = $('#postForm [name=post_date_time]').val();
         if (d && t){ $('#postForm [name=post_date]').val(d + ' ' + t + ':00'); }
         createOrUpdatePost();
-        closeModal();
-        loadCards();
-        refreshManageTable();
+
     });
 
     // Delete from card
     $(document).on('click', '.delete-post', function(){
         var id = $(this).data('id');
         if (!confirm('Delete this post?')) return;
-        $.post(BASE + '/posts/' + id + '/delete', function(){
-            loadCards();
-            refreshManageTable();
-        });
+        $.ajax({ url: BASE + '/posts/' + id + '/delete', method: 'POST', dataType: 'json' })
+            .done(function(json){ if(json && json.Success){ loadCards();  } });
     });
 })(jQuery);
 

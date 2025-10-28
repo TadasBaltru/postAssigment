@@ -19,6 +19,13 @@ final class HomeController extends Controller
         $groups = (new Group())->all();
         $persons = (new Person())->all();
 
+        // If partial requested (AJAX/flag), return only the grid HTML
+        if (!empty($_GET['partial']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower((string)$_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+            ob_start();
+            require __DIR__ . '/../Views/home/_grid.php';
+            return (string) ob_get_clean();
+        }
+
         return $this->render('home/index', compact('posts', 'groups', 'persons'));
 	}
 

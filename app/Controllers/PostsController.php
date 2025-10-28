@@ -33,29 +33,16 @@ final class PostsController extends Controller
         return $this->render('posts/form', compact('persons'));
     }
 
-    public function edit(int $id): string
-    {
-        $post = (new Post())->find($id);
-        if (!$post) {
-            http_response_code(404);
-            return 'Post not found';
-        }
-        $persons = (new Person())->all();
-        return $this->render('posts/form', compact('post', 'persons'));
-    }
-
-
-
     public function delete(int $id): string
     {
+        header('Content-Type: application/json');
         $id = (int) $id;
         if ($id <= 0) {
             http_response_code(400);
-            return 'Invalid ID';
+            return json_encode(['Success' => false, 'error' => 'Invalid ID']);
         }
         (new Post())->delete($id);
-        header('Location: ' . (defined('BASE_PATH') ? BASE_PATH : '') . '/posts');
-        return '';
+        return json_encode(['Success' => true, 'id' => $id]);
     }
     public function store(): string
     {
@@ -63,7 +50,6 @@ final class PostsController extends Controller
         $personBaseId = isset($_POST['person_base_id']) ? (int) $_POST['person_base_id'] : 0;
         $content = trim((string) ($_POST['content'] ?? ''));
         $postDate = trim((string) ($_POST['post_date'] ?? ''));
-        $title = trim((string) ($_POST['title'] ?? ''));
         if ($personBaseId <= 0 || $content === '' || $postDate === '') {
             http_response_code(422);
             return json_encode(['Success' => false, 'error' => 'Missing required fields']);
@@ -71,7 +57,6 @@ final class PostsController extends Controller
 
         $model = new Post();
         $id = $model->insert([
-            'title' => $title,
             'person_base_id' => $personBaseId,
             'content' => $content,
             'post_date' => $postDate,
