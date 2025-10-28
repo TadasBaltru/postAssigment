@@ -24,12 +24,13 @@ CREATE TABLE `persons` (
   `group_id` INT UNSIGNED NULL,
   `valid_from` DATE NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uq_person_base` (`base_id`), 
+  KEY `idx_person_base` (`base_id`),
   KEY `idx_person_group` (`group_id`),
   KEY `idx_person_name` (`name`),
   KEY `idx_person_surname` (`surname`),
   CONSTRAINT `fk_persons_group` FOREIGN KEY (`group_id`)
       REFERENCES `groups` (`id`) ON DELETE CASCADE
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Posts table

@@ -17,7 +17,7 @@ final class HomeController extends Controller
         if (isset($_GET['date'])) { $filters['date'] = (string) $_GET['date']; }
         $posts = (new Post())->all($filters);
         $groups = (new Group())->all();
-        $persons = (new Person())->all();
+        $persons = (new Person())->allUnique();
 
         // If partial requested (AJAX/flag), return only the grid HTML
         if (!empty($_GET['partial']) || (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower((string)$_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {

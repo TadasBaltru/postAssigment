@@ -1,20 +1,8 @@
 /* global APP_BASE_PATH */
-console.log('app.js loaded');
 $(function() {
 (function ($) {
 	const BASE = window.APP_BASE_PATH || '';
 
-	function escapeHtml(s) {
-		return String(s || '')
-			.replace(/&/g, '&amp;')
-			.replace(/</g, '&lt;')
-			.replace(/>/g, '&gt;')
-			.replace(/"/g, '&quot;')
-			.replace(/'/g, '&#039;');
-	}
-
-
-    // Home page: filter to cards
     function loadCards(){
         const params = $('#homeFilter').serialize();
         $.ajax({ url: BASE + '/?partial=1&' + params, dataType: 'html' })
@@ -76,14 +64,17 @@ $(function() {
         const url = id ? (BASE + '/posts/' + encodeURIComponent(id) + '/update') : (BASE + '/posts/store');
         $.ajax({ url: url, method: 'POST', data: $f.serialize(), dataType: 'json' })
             .done(function (json) {
-                if (json && (json.ok || json.Success)) {
+                var ok = json && (json.Success === true);
+                if (ok) {
                     if(!id){ $f.trigger('reset'); }
                     closeModal();
                     loadCards();
                 } else {
-                    alert((json && (json.error||json.message)) || 'Error');
+                    var msg = (json && (json.error||json.message)) || 'Validation error';
+                    $('#postError').text(msg).removeAttr('hidden');
                 }
-            });
+            })
+            .fail(function(){ $('#postError').text('Network error').removeAttr('hidden'); });
     };
 
     // Modal interactions on home feed
@@ -122,7 +113,7 @@ $(function() {
         var id = $(this).data('id');
         if (!confirm('Delete this post?')) return;
         $.ajax({ url: BASE + '/posts/' + id + '/delete', method: 'POST', dataType: 'json' })
-            .done(function(json){ if(json && json.Success){ loadCards();  } });
+            .done(function(json){ if(json && (json.Success === true)){ loadCards();  } });
     });
 })(jQuery);
 

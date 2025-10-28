@@ -9,12 +9,6 @@ use App\Models\Person;
 
 final class PostsController extends Controller
 {
-    public function index(): string
-    {
-        $model = new Post();
-        $posts = $model->all();
-        return $this->render('posts/index', compact('posts'));
-    }
 
     public function view(int $id): string
     {
@@ -25,12 +19,6 @@ final class PostsController extends Controller
             return 'Post not found';
         }
         return $this->render('posts/view', compact('post'));
-    }
-
-    public function create(): string
-    {
-        $persons = (new Person())->all();
-        return $this->render('posts/form', compact('persons'));
     }
 
     public function delete(int $id): string
@@ -53,6 +41,11 @@ final class PostsController extends Controller
         if ($personBaseId <= 0 || $content === '' || $postDate === '') {
             http_response_code(422);
             return json_encode(['Success' => false, 'error' => 'Missing required fields']);
+        }
+        $person = (new Person())->findByBaseIdAndDate($personBaseId, $postDate);
+        if (!$person) {
+            http_response_code(422);
+            return json_encode(['Success' => false, 'error' => 'Person has no valid activity on this date']);
         }
 
         $model = new Post();
@@ -81,13 +74,13 @@ final class PostsController extends Controller
         if (isset($_POST['content'])) {
             $data['content'] = trim((string) $_POST['content']);
         }
-        $d = isset($_POST['post_date_date']) ? trim((string) $_POST['post_date_date']) : '';
-        $t = isset($_POST['post_date_time']) ? trim((string) $_POST['post_date_time']) : '';
-        if (!empty($_POST['post_date'])) {
-            $data['post_date'] = trim((string) $_POST['post_date']);
-        } elseif ($d !== '' && $t !== '') {
-            $data['post_date'] = $d . ' ' . $t . ':00';
+        $postDate = trim((string) ($_POST['post_date'] ?? ''));
+        $person = (new Person())->findByBaseIdAndDate($data['person_base_id'], $postDate);
+        if (!$person) {
+            http_response_code(422);
+            return json_encode(['Success' => false, 'error' => 'Person has no valid activity on this date']);
         }
+
         if ($data === []) {
             http_response_code(422);
             return json_encode(['Success' => false, 'error' => 'No fields to update']);

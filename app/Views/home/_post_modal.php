@@ -29,6 +29,7 @@
 					<label class="field__label">Content</label>
 					<textarea class="field__input" name="content" rows="6" required></textarea>
 				</div>
+				<div class="form__error" id="postError" hidden></div>
 				<div class="actions">
 					<button class="btn btn--primary" type="submit" id="createBtn">Save</button>
 					<button class="btn btn--ghost" type="button" data-close>Cancel</button>

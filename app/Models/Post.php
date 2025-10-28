@@ -27,23 +27,32 @@ final class Post extends Model
 
 		$date = isset($filters['date']) ? trim((string) $filters['date']) : '';
 		if ($date !== '') {
-			// Expecting YYYY-MM-DD
 			$where[] = 'DATE(p.post_date) = ?';
 			$types .= 's';
 			$params[] = $date;
 		}
 
 		$sql = 'SELECT 
-			p.id,
-			p.person_base_id,
-			p.content,
-			p.post_date,
-			per.name AS person_name,
-			per.surname AS person_surname,
-			g.name AS group_name
-		FROM posts p
-		INNER JOIN persons per ON per.base_id = p.person_base_id
-		INNER JOIN `groups` g ON g.id = per.group_id';
+				p.id,
+				p.person_base_id,
+				p.content,
+				p.post_date,
+				per.name AS person_name,
+				per.surname AS person_surname,
+				g.name AS group_name
+			FROM posts p
+			JOIN persons per 
+				ON per.id = (
+					SELECT id 
+					FROM persons 
+					WHERE base_id = p.person_base_id 
+					AND valid_from <= p.post_date
+					ORDER BY valid_from DESC
+					LIMIT 1
+				)
+			JOIN `groups` g 
+				ON g.id = per.group_id
+			';
 
 		if ($where) {
 			$sql .= ' WHERE ' . implode(' AND ', $where);
@@ -52,6 +61,7 @@ final class Post extends Model
 
 		$stmt = $this->db()->prepare($sql);
 		if ($stmt === false) {
+		
 			throw new \RuntimeException('Prepare failed: ' . $this->db()->error);
 		}
 		if ($types !== '') {
