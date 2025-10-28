@@ -17,25 +17,6 @@ $(function() {
             });
     }
 
-	function createOrUpdatePost() {
-        console.log('createOrUpdatePost');
-		const $f = $('#postForm');
-		const id = ($f.find('[name=id]').val() || '').trim();
-		const url = id ? (BASE + '/posts/' + encodeURIComponent(id) + '/update') : (BASE + '/posts/store');
-        console.log(url);
-		$.ajax({ url: url, method: 'POST', data: $f.serialize(), dataType: 'json' })
-			.done(function (json) {
-				if (json.ok) {
-                    if(!id){
-                        $f.trigger('reset');
-                    }
-
-				} else {
-					alert(json.error || 'Error');
-				}
-			});
-	}
-
 	function onClickEdit(e) {
 		const $btn = $(e.currentTarget);
 		$('#postForm [name=id]').val($btn.data('id'));
@@ -57,24 +38,20 @@ $(function() {
         createOrUpdatePost();
       });
 
-    const _orig = createOrUpdatePost;
     createOrUpdatePost = function(){
         const $f = $('#postForm');
         const id = ($f.find('[name=id]').val() || '').trim();
         const url = id ? (BASE + '/posts/' + encodeURIComponent(id) + '/update') : (BASE + '/posts/store');
         $.ajax({ url: url, method: 'POST', data: $f.serialize(), dataType: 'json' })
             .done(function (json) {
-                var ok = json && (json.Success === true);
-                if (ok) {
+                var success = json && (json.Success === true);
+                if (success) {
                     if(!id){ $f.trigger('reset'); }
                     closeModal();
                     loadCards();
-                } else {
-                    var msg = (json && (json.error||json.message)) || 'Validation error';
-                    $('#postError').text(msg).removeAttr('hidden');
                 }
             })
-            .fail(function(){ $('#postError').text('Network error').removeAttr('hidden'); });
+            .fail(function(msg){ var response = JSON.parse(msg.responseText); $('#postError').text(response.error).removeAttr('hidden'); console.log(msg); });
     };
 
     // Modal interactions on home feed
