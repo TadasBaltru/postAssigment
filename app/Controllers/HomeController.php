@@ -6,6 +6,7 @@ namespace App\Controllers;
 use Core\Controller;
 use App\Models\Post;
 use App\Models\Group;
+use App\Models\Person;
 
 final class HomeController extends Controller
 {
@@ -16,8 +17,9 @@ final class HomeController extends Controller
         if (isset($_GET['date'])) { $filters['date'] = (string) $_GET['date']; }
         $posts = (new Post())->all($filters);
         $groups = (new Group())->all();
+        $persons = (new Person())->all();
 
-		return $this->render('home/index', compact('posts', 'groups'));
+        return $this->render('home/index', compact('posts', 'groups', 'persons'));
 	}
 
 

@@ -5,7 +5,6 @@ namespace App\Controllers;
 
 use Core\Controller;
 use App\Models\Post;
-use Core\Database;
 use App\Models\Person;
 
 final class PostsController extends Controller
@@ -67,7 +66,7 @@ final class PostsController extends Controller
         $title = trim((string) ($_POST['title'] ?? ''));
         if ($personBaseId <= 0 || $content === '' || $postDate === '') {
             http_response_code(422);
-            return json_encode(['ok' => false, 'error' => 'Missing required fields']);
+            return json_encode(['Success' => false, 'error' => 'Missing required fields']);
         }
 
         $model = new Post();
@@ -78,7 +77,7 @@ final class PostsController extends Controller
             'post_date' => $postDate,
         ]);
 
-        return json_encode(['ok' => true, 'id' => $id]);
+        return json_encode(['Success' => true, 'id' => $id]);
     }
 
     public function update(int $id): string
@@ -87,7 +86,7 @@ final class PostsController extends Controller
         $id = (int) $id;
         if ($id <= 0) {
             http_response_code(400);
-            return json_encode(['ok' => false, 'error' => 'Invalid ID']);
+            return json_encode(['Success' => false, 'error' => 'Invalid ID']);
         }
 
         $data = [];
@@ -106,12 +105,12 @@ final class PostsController extends Controller
         }
         if ($data === []) {
             http_response_code(422);
-            return json_encode(['ok' => false, 'error' => 'No fields to update']);
+            return json_encode(['Success' => false, 'error' => 'No fields to update']);
         }
 
         $model = new Post();
         $model->update($id, $data);
-        return json_encode(['ok' => true, 'id' => $id]);
+        return json_encode(['Success' => true, 'id' => $id]);
     }
 }
 

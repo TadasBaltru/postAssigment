@@ -85,7 +85,7 @@ $(function() {
     function refreshManageTable(){
         var $table = $('body').find('table').first();
         if ($table.length === 0) return;
-        $.get(BASE + '/posts?partial=1', function(html){
+        $.get(BASE + '/posts', function(html){
             // Replace table html
             var $newTable = $(html).filter('table');
             if ($newTable.length) {
@@ -105,13 +105,53 @@ $(function() {
                 if (json && (json.ok || json.Success)) {
                     if(!id){ $f.trigger('reset'); }
                     refreshManageTable();
-                    // Also refresh home grid if present
-                    if (document.getElementById('homeFilter')) { loadCards(); }
                 } else {
                     alert((json && (json.error||json.message)) || 'Error');
                 }
             });
     };
+
+    // Modal interactions on home feed
+    function openModal(){ $('#postModal').removeAttr('hidden'); }
+    function closeModal(){ $('#postModal').attr('hidden', 'hidden'); $('#postForm')[0].reset(); $('#postForm [name=id]').val(''); }
+    $(document).on('click', '#openCreate', function(){ $('#modalTitle').text('Create Post'); openModal(); });
+    $(document).on('click', '[data-close]', closeModal);
+    $(document).on('click', '.open-edit', function(){
+        var $b = $(this);
+        $('#modalTitle').text('Edit Post');
+        $('#postForm [name=id]').val($b.data('id'));
+        $('#postForm [name=title]').val($b.data('title'));
+        $('#postForm [name=person_base_id]').val($b.data('person'));
+        $('#postForm [name=content]').val($b.data('content'));
+        var dt = String($b.data('date')||'').split(' ');
+        if (dt.length >= 2){
+            $('#postForm [name=post_date_date]').val(dt[0]);
+            $('#postForm [name=post_date_time]').val(dt[1].slice(0,5));
+        }
+        openModal();
+    });
+
+    // Submit modal via existing createOrUpdatePost and refresh grids/tables
+    $('#postForm').off('submit').on('submit', function(e){ e.preventDefault();
+        // compose hidden post_date
+        var d = $('#postForm [name=post_date_date]').val();
+        var t = $('#postForm [name=post_date_time]').val();
+        if (d && t){ $('#postForm [name=post_date]').val(d + ' ' + t + ':00'); }
+        createOrUpdatePost();
+        closeModal();
+        loadCards();
+        refreshManageTable();
+    });
+
+    // Delete from card
+    $(document).on('click', '.delete-post', function(){
+        var id = $(this).data('id');
+        if (!confirm('Delete this post?')) return;
+        $.post(BASE + '/posts/' + id + '/delete', function(){
+            loadCards();
+            refreshManageTable();
+        });
+    });
 })(jQuery);
 
 });

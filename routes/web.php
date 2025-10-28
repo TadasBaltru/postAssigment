@@ -1,6 +1,5 @@
 <?php
 $router->get('/', ['home', 'index']);
-$router->get('/posts', ['posts', 'index']);
 $router->post('/posts/{id:\\d+}/update', ['posts', 'update']);
 $router->post('/posts/store', ['posts', 'store']);
 $router->get('/posts/{id:\\d+}/view', ['posts', 'view']);

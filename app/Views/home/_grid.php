@@ -13,9 +13,14 @@
       <?php if (!empty($p['group_name'])): ?> • <?= htmlspecialchars($p['group_name'], ENT_QUOTES, 'UTF-8') ?><?php endif; ?>
       • <?= htmlspecialchars($p['post_date'] ?? '', ENT_QUOTES, 'UTF-8') ?>
     </p>
-    <a class="btn" href="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/posts/<?= (int)$p['id'] ?>/view">Read more</a>
+    <div class="card__actions">
+      <a class="btn" href="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/posts/<?= (int)$p['id'] ?>/view">View</a>
+      <button class="btn btn--ghost open-edit" type="button" data-id="<?= (int)$p['id'] ?>" data-title="<?= htmlspecialchars($p['title'] ?? '', ENT_QUOTES, 'UTF-8') ?>" data-person="<?= (int)$p['person_base_id'] ?>" data-content="<?= htmlspecialchars($p['content'] ?? '', ENT_QUOTES, 'UTF-8') ?>" data-date="<?= htmlspecialchars($p['post_date'] ?? '', ENT_QUOTES, 'UTF-8') ?>">Edit</button>
+      <button class="btn btn--danger delete-post" type="button" data-id="<?= (int)$p['id'] ?>">Delete</button>
+    </div>
   </article>
 <?php endforeach; ?>
 </section>
+
 
 

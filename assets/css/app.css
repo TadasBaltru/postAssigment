@@ -18,6 +18,12 @@ th { background: #fafafa; }
 .btn--ghost { background:transparent; }
 .btn--danger { border-color:#ffb3b3; color:#b42318; background:#fff5f5; }
 .btn--danger:hover { background:#ffe6e6; }
+/* modal */
+.modal[hidden] { display:none; }
+.modal__backdrop { position:fixed; inset:0; background:rgba(0,0,0,.4); }
+.modal__dialog { position:fixed; inset:0; max-width:720px; margin:auto; height:max-content; background:#fff; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,.15); padding:1rem; }
+.modal__header { display:flex; justify-content:space-between; align-items:center; margin-bottom: .5rem; }
+.modal__close { background:transparent; border:none; font-size:1.5rem; line-height:1; cursor:pointer; }
 
 /* layout */
 .container { max-width: 900px; margin: 0 auto; }

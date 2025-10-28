@@ -35,7 +35,7 @@ final class Post extends Model
 
 		$sql = 'SELECT 
 			p.id,
-			p.title,
+			p.person_base_id,
 			p.content,
 			p.post_date,
 			per.name AS person_name,

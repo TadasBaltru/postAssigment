@@ -11,6 +11,9 @@
 <body>
   <?php require __DIR__ . '/../partials/nav.php'; ?>
   <h1>Posts</h1>
+  <div style="margin-bottom:1rem">
+    <button class="btn btn--primary" id="openCreate">Create post</button>
+  </div>
   <form id="homeFilter" style="margin-bottom:1rem; display:flex; gap:.5rem; flex-wrap:wrap; align-items:center;">
     <select name="group_id" id="groupSelect" class="field__input">
       <option value="">All groups</option>
@@ -27,6 +30,7 @@
   </form>
 
   <?php require __DIR__ . '/_grid.php'; ?>
+  <?php require __DIR__ . '/_post_modal.php'; ?>
 </body>
 </html>
 
