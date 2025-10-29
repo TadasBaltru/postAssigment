@@ -76,7 +76,7 @@ postAssesmentTask/
    docker compose up -d
   ```
 4. Configure DB in `config/database.php` (or use the defaults).
-5. Create the database (if not using Docker) and seed via endpoint:
+5. Create the database and seed via endpoint:
    - Make sure MySQL is running and credentials in `config/database.php` are correct
    - Visit `http://localhost:8080/postAssigment/migrate` once to import `database/schema.sql`
 6. Open the app at `http://localhost:8080/postAssigment/`.
