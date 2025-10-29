@@ -71,40 +71,18 @@ postAssesmentTask/
    composer install
    composer dump-autoload -o
    ```
-3. Configure Apache as shown above (Alias to `public/`).
+3. To run project in docker:   
+  ```bash
+   docker compose up -d
+  ```
 4. Configure DB in `config/database.php` (or use the defaults).
 5. Create the database (if not using Docker) and seed via endpoint:
    - Make sure MySQL is running and credentials in `config/database.php` are correct
-   - Visit `http://localhost/postAssigment/migrate` once to import `database/schema.sql`
-6. Open the app at `http://localhost/postAssigment/`.
+   - Visit `http://localhost:8080/postAssigment/migrate` once to import `database/schema.sql`
+6. Open the app at `http://localhost:8080/postAssigment/`.
 
 Notes:
 - The container serves `public/` as DocumentRoot.
-## Manual Setup (Apache on Windows/WAMP)
-
-Example:
-```apache
-# Serve the app
-Alias /postAssigment "D:/LearningApps/postAssigment/public"
-<Directory "D:/LearningApps/postAssigment/public">
-    Options -Indexes -MultiViews +FollowSymLinks
-    AllowOverride All
-    Require local
-    DirectoryIndex index.php
-</Directory>
-
-## Configuration
-- DB credentials in `config/database.php` (defaults for Docker):
-  ```php
-  return [
-      'host' => getenv('DB_HOST') ?: 'db',
-      'port' => (int) (getenv('DB_PORT') ?: 3306),
-      'database' => getenv('DB_NAME') ?: 'postass',
-      'username' => getenv('DB_USER') ?: 'postass',
-      'password' => getenv('DB_PASSWORD') ?: 'postass',
-      'charset' => 'utf8mb4',
-  ];
-  ```
 
 ## Autoload
 Install vendor autoload once, then dump when classes change:
@@ -153,11 +131,8 @@ AJAX endpoints used by the feed:
 - No frameworks
 
 ## Troubleshooting
-- If you see a directory index instead of the app:
-  - Ensure DocumentRoot points to `public/` and `AllowOverride All` is set.
-  - Verify `.htaccess` exists in `public/` and `mod_rewrite` is enabled.
 - If AJAX updates don’t show immediately, ensure:
-  - Endpoints return JSON with `ok: true` or `Success: true`.
+  - Endpoints return JSON with `Success: true`.
   - The UI JS (`assets/js/app.js`) calls `loadCards()` after create/update/delete.
 
 
