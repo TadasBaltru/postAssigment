@@ -80,8 +80,33 @@ final class Post extends Model
 		$stmt->close();
 		return $rows;
 	}
+
+	public function find($id): array
+	{
+		$sql = 'SELECT 
+				p.id,
+				p.person_base_id,
+				p.content,
+				p.post_date,
+				per.name AS person_name,
+				per.surname AS person_surname,
+				g.name AS group_name
+			FROM posts p
+			JOIN persons per 
+				ON per.id = (
+					SELECT id 
+					FROM persons 
+					WHERE base_id = p.person_base_id 
+					AND valid_from <= p.post_date
+					ORDER BY valid_from DESC
+					LIMIT 1
+				)
+			JOIN `groups` g 
+				ON g.id = per.group_id
+			 WHERE p.id = ?';		
+		$stmt = $this->db()->prepare($sql);
+		$stmt->bind_param('i', $id);
+		$stmt->execute();
+		return $stmt->get_result()->fetch_assoc() ?? [];
+	}
 }
-
-
-
-

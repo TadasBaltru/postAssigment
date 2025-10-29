@@ -12,8 +12,7 @@ final class PostsController extends Controller
 {
     public function view(int $id): string
     {
-        $model = new Post();
-        $post = $model->find($id);
+        $post = (new Post())->find($id);
         if (!$post) {
             http_response_code(404);
             return 'Post not found';
