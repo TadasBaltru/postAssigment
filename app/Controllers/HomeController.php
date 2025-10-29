@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controllers;
@@ -10,11 +11,15 @@ use App\Models\Person;
 
 final class HomeController extends Controller
 {
-	public function index(): string
-	{
+    public function index(): string
+    {
         $filters = [];
-        if (isset($_GET['group_id'])) { $filters['group_id'] = (int) $_GET['group_id']; }
-        if (isset($_GET['date'])) { $filters['date'] = (string) $_GET['date']; }
+        if (isset($_GET['group_id'])) {
+            $filters['group_id'] = (int) $_GET['group_id'];
+        }
+        if (isset($_GET['date'])) {
+            $filters['date'] = (string) $_GET['date'];
+        }
         $posts = (new Post())->all($filters);
         $groups = (new Group())->all();
         $persons = (new Person())->allUnique();
@@ -27,9 +32,5 @@ final class HomeController extends Controller
         }
 
         return $this->render('home/index', compact('posts', 'groups', 'persons'));
-	}
-
-
+    }
 }
-
-

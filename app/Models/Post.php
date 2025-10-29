@@ -57,7 +57,7 @@ final class Post extends Model
 		if ($where) {
 			$sql .= ' WHERE ' . implode(' AND ', $where);
 		}
-		$sql .= ' ORDER BY p.post_date DESC, p.id DESC';
+		$sql .= ' ORDER BY p.post_date DESC';
 
 		$stmt = $this->db()->prepare($sql);
 		if ($stmt === false) {

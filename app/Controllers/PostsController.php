@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controllers;
@@ -9,7 +10,6 @@ use App\Models\Person;
 
 final class PostsController extends Controller
 {
-
     public function view(int $id): string
     {
         $model = new Post();
@@ -91,5 +91,3 @@ final class PostsController extends Controller
         return json_encode(['Success' => true, 'id' => $id]);
     }
 }
-
-

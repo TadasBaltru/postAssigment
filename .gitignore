@@ -1,0 +1,22 @@
+vendor/
+node_modules/
+.env
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.history/
+coverage/
+*.log
+
+# OS and archives
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
+# Composer caches (optional)
+/composer.phar
+
+# Generated assets (if any build step is later added)
+public/build/

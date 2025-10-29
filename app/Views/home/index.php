@@ -18,9 +18,9 @@
     <select name="group_id" id="groupSelect" class="field__input">
       <option value="">All groups</option>
       <?php
-      foreach ($groups as $g): ?>
+        foreach ($groups as $g) : ?>
         <option value="<?= $g['id'] ?>"><?= $g['name'] ?></option>
-      <?php endforeach; ?>
+        <?php endforeach; ?>
       ?>
     </select>
 

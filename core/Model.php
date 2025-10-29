@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Core;
@@ -7,61 +8,61 @@ use mysqli;
 
 abstract class Model
 {
-	protected string $table;
+    protected string $table;
 
-	protected function db(): mysqli
-	{
-		return Database::getInstance();
-	}
+    protected function db(): mysqli
+    {
+        return Database::getInstance();
+    }
 
-	public function find(int $id): ?array
-	{
-		$sql = "SELECT * FROM `{$this->table}` WHERE `id` = ? LIMIT 1";
-		$stmt = $this->db()->prepare($sql);
-		if ($stmt === false) {
-			throw new \RuntimeException('Prepare failed: ' . $this->db()->error);
-		}
-		$stmt->bind_param('i', $id);
-		if (!$stmt->execute()) {
-			throw new \RuntimeException('Execute failed: ' . $stmt->error);
-		}
-		$res = $stmt->get_result();
-		$row = $res ? $res->fetch_assoc() : null;
-		$stmt->close();
-		return $row ?: null;
-	}
+    public function find(int $id): ?array
+    {
+        $sql = "SELECT * FROM `{$this->table}` WHERE `id` = ? LIMIT 1";
+        $stmt = $this->db()->prepare($sql);
+        if ($stmt === false) {
+            throw new \RuntimeException('Prepare failed: ' . $this->db()->error);
+        }
+        $stmt->bind_param('i', $id);
+        if (!$stmt->execute()) {
+            throw new \RuntimeException('Execute failed: ' . $stmt->error);
+        }
+        $res = $stmt->get_result();
+        $row = $res ? $res->fetch_assoc() : null;
+        $stmt->close();
+        return $row ?: null;
+    }
 
-	public function all(): array
-	{
-		$sql = "SELECT * FROM `{$this->table}`";
-		$res = $this->db()->query($sql);
-		if ($res === false) {
-			throw new \RuntimeException('Query failed: ' . $this->db()->error);
-		}
-		$rows = [];
-		while ($row = $res->fetch_assoc()) {
-			$rows[] = $row;
-		}
-		$res->free();
-		return $rows;
-	}
+    public function all(): array
+    {
+        $sql = "SELECT * FROM `{$this->table}`";
+        $res = $this->db()->query($sql);
+        if ($res === false) {
+            throw new \RuntimeException('Query failed: ' . $this->db()->error);
+        }
+        $rows = [];
+        while ($row = $res->fetch_assoc()) {
+            $rows[] = $row;
+        }
+        $res->free();
+        return $rows;
+    }
 
-	public function delete(int $id): bool
-	{
-		$sql = "DELETE FROM `{$this->table}` WHERE `id` = ?";
-		$stmt = $this->db()->prepare($sql);
-		if ($stmt === false) {
-			throw new \RuntimeException('Prepare failed: ' . $this->db()->error);
-		}
-		$stmt->bind_param('i', $id);
-		$ok = $stmt->execute();
-		if (!$ok) {
-			throw new \RuntimeException('Execute failed: ' . $stmt->error);
-		}
-		$affected = $stmt->affected_rows;
-		$stmt->close();
-		return $affected > 0;
-	}
+    public function delete(int $id): bool
+    {
+        $sql = "DELETE FROM `{$this->table}` WHERE `id` = ?";
+        $stmt = $this->db()->prepare($sql);
+        if ($stmt === false) {
+            throw new \RuntimeException('Prepare failed: ' . $this->db()->error);
+        }
+        $stmt->bind_param('i', $id);
+        $ok = $stmt->execute();
+        if (!$ok) {
+            throw new \RuntimeException('Execute failed: ' . $stmt->error);
+        }
+        $affected = $stmt->affected_rows;
+        $stmt->close();
+        return $affected > 0;
+    }
 
     public function insert(array $data): int
     {
@@ -138,5 +139,3 @@ abstract class Model
         return [$types, $values];
     }
 }
-
-
