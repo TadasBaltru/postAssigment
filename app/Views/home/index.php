@@ -6,6 +6,8 @@
   <title>Posts</title>
   <link rel="stylesheet" href="/assets/css/app.css" />
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css">
   <script src="/assets/js/app.js"></script>
 </head>
 <body>
@@ -24,7 +26,7 @@
       ?>
     </select>
 
-    <input class="field__input date-input"  type="date" name="date" id="dateInput" />
+    <input class="field__input date-input"  type="text" name="date"  />
     <button type="submit" class="btn" id="applyFilter">Filter</button>
     <button type="button" class="btn btn--ghost" id="resetFilter">Reset</button>
   </form>

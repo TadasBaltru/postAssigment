@@ -16,13 +16,13 @@
                             <option value="">Select person...</option>
                             <?php foreach (($persons ?? []) as $person) :
                                 $val = $person['base_id']; ?>
-                            <option value="<?= $val ?>"><?= htmlspecialchars($person['name'] . ' ' . $person['surname'], ENT_QUOTES, 'UTF-8') ?> (<?= $val ?>)</option>
+                            <option value="<?= $val ?>"><?= htmlspecialchars($person['name'] . ' ' . $person['surname'], ENT_QUOTES, 'UTF-8') ?> </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="field">
                         <label class="field__label">Date</label>
-                        <input class="field__input" type="date" name="post_date" value="<?= $post['post_date'] ?? '' ?>" required />
+                        <input class="field__input date-input" type="text" id="dateInput" name="post_date" value="<?= $post['post_date'] ?? '' ?>" required />
                     </div>
 
                 </div>
