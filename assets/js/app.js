@@ -22,11 +22,6 @@ $(function() {
     $(document).on('click', '#resetFilter', function(){ $('#homeFilter')[0].reset(); loadCards(); });
     if (document.getElementById('postsGrid')) { /* initial content already server-rendered */ }
 	$(document).on('click', '#resetBtn', function(){ $('#postForm').trigger('reset'); $('#postForm [name=id]').val(''); });
-    $('#postForm').on('submit', function(e) {
-        e.preventDefault();
-        createOrUpdatePost();
-      });
-
     createOrUpdatePost = function(){
         const $f = $('#postForm');
         const id = ($f.find('[name=id]').val() || '').trim();
