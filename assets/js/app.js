@@ -45,17 +45,11 @@ $(function() {
     $(document).on('click', '[data-close]', closeModal);
     $(document).on('click', '.open-edit', function(){
         var $b = $(this);
-        console.log($b.data());
         $('#modalTitle').text('Edit Post');
         $('#postForm [name=id]').val($b.data('id'));
         $('#postForm [name=post_date]').val($b.data('date'));
         $('#postForm [name=person_base_id]').val($b.data('person'));
         $('#postForm [name=content]').val($b.data('content'));
-        var dt = String($b.data('date')||'').split(' ');
-        if (dt.length >= 2){
-            $('#postForm [name=post_date_date]').val(dt[0]);
-            $('#postForm [name=post_date_time]').val(dt[1].slice(0,5));
-        }
         openModal();
     });
 
