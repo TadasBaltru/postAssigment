@@ -17,22 +17,11 @@ $(function() {
             });
     }
 
-	function onClickEdit(e) {
-		const $btn = $(e.currentTarget);
-		$('#postForm [name=id]').val($btn.data('id'));
-		$('#postForm [name=person_base_id]').val($btn.data('person'));
-		$('#postForm [name=content]').val($btn.data('content'));
-		// Convert to datetime-local if needed
-		var dt = ($btn.data('date') || '').replace(' ', 'T').slice(0, 16);
-		$('#postForm [name=post_date]').val(dt);
-	}
 
-    // Home filter handlers
     $(document).on('submit', '#homeFilter', function(e){ e.preventDefault(); loadCards(); });
     $(document).on('click', '#resetFilter', function(){ $('#homeFilter')[0].reset(); loadCards(); });
     if (document.getElementById('postsGrid')) { /* initial content already server-rendered */ }
 	$(document).on('click', '#resetBtn', function(){ $('#postForm').trigger('reset'); $('#postForm [name=id]').val(''); });
-	$(document).on('click', '.edit-btn', onClickEdit);
     $('#postForm').on('submit', function(e) {
         e.preventDefault();
         createOrUpdatePost();

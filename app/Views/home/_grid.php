@@ -1,7 +1,6 @@
 <section class="grid" id="postsGrid">
 <?php foreach ($posts as $p) : ?>
   <article class="card">
-    <h2 class="card__title"><?= htmlspecialchars($p['title'] ?? '', ENT_QUOTES, 'UTF-8') ?></h2>
     <?php
       $snippet = trim((string)($p['content'] ?? ''));
       $words = preg_split('/\s+/', $snippet) ?: [];
