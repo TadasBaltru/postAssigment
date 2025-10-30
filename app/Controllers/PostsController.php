@@ -79,6 +79,7 @@ final class PostsController extends Controller
             http_response_code(422);
             return json_encode(['Success' => false, 'error' => 'Person has no valid activity on this date']);
         }
+        $data['post_date'] = $postDate;
 
         if ($data === []) {
             http_response_code(422);
