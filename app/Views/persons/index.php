@@ -6,6 +6,8 @@
     <title>Posts Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
     <style>
         :root {
             --primary-color: #96DCE7;
@@ -288,7 +290,7 @@
             background-color: var(--primary-color);
             color: black;
             box-shadow: 0px 1px 4.3px #818181;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             &:hover {
                 background-color: var(--primary-hover-color);
             }
@@ -298,6 +300,7 @@
             background-color: white;
             color: #333;
             border: 1px solid var(--border-color);
+            font-size: 1.2rem;
         }
 
         .icon-bold {
@@ -389,17 +392,22 @@
         width: 48px;
         height: 48px;
         border-radius: 50%;
-        background: radial-gradient(circle at 30% 30%, #96DCE7, #61C0CF); /* 3D ball effect */
-        box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
-        
+        background-color: var(--Featured-fill, #E9FCFF);        
         display: flex;               /* make container flex */
         align-items: center;         /* vertical center */
         justify-content: center;     /* horizontal center */
     }
     .globe-icon {
-        width: 24px;                 /* adjust icon size */
-        height: 24px;
+
         display: block;
+        border: 6px solid #CDF2F7;
+        background-color: #CDF2F7;
+        border-radius: 50%;
+    }
+    .flatpickr-day.selected {
+        background-color: var(--primary-color) !important;
+        border-color: var(--primary-color) !important;
+        color: black !important;
     }
     </style>
 </head>
@@ -433,9 +441,7 @@
                     <option>Group x</option>
 
                 </select>
-                <select class="filter-select" id="dateFilter">
-                    <option>Select date</option>
-                </select>
+                <!-- <input class="filter-select" id="dateFilter" type="text" placeholder="Select date"> -->
             </div>
             
             <div class="divider"></div>
@@ -526,9 +532,12 @@
                         <option>Marketing</option>
                         <option>Group x</option>
                     </select>
-                    <select class="filter-select form-select w-50" id="mobileDateFilter">
-                        <option>Select date</option>
-                    </select>
+                    <div class="input-group w-50">
+                        <span class="input-group-text " style="background-color: #FFFFFF !important; border: 1px solid var(--border-color); border-right: none;">
+                            <img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/calendar.svg" alt="calendar" width="16" height="16">
+                        </span>
+                        <input class="form-control search-input " style="width:85%" id="dateFilter" type="text" placeholder="Select date">
+                    </div>
                 </div>
             </div>
             <div class="mobile-posts-list main-container">
@@ -779,6 +788,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         $(document).ready(function() {
             // Character counter for textareas
@@ -815,6 +825,11 @@
             const createPostModal = new bootstrap.Modal(document.getElementById('createPostModal'));
             const editPostModal = new bootstrap.Modal(document.getElementById('editPostModal'));
             const calendarModal = new bootstrap.Modal(document.getElementById('calendarModal'));
+            flatpickr("#dateFilter", {
+                dateFormat: "Y-m-d",
+                allowInput: true,
+                placeholder: "Select date"
+            });
         });
     </script>
 </body>
