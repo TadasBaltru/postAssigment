@@ -10,7 +10,8 @@ services:
       - APACHE_DOCUMENT_ROOT=/var/www/html/public
     volumes:
       - ./:/var/www/html:delegated
-      - ./assets:/var/www/html/public/assets:ro
+      - ./assets/css:/var/www/html/public/assets/css:ro
+      - ./assets/js:/var/www/html/public/assets/js:ro
     depends_on:
       - db
 
