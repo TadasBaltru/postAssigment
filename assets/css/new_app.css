@@ -133,6 +133,7 @@ body {
 
 .posts-list {
     background-color: var(--posts-list-color);
+    padding-left: 20px;
 }
 .mobile-posts-list {
     background-color: var(--posts-list-color);
@@ -174,37 +175,105 @@ body {
 }
 
 .mobile-pagination {
+    padding: 24px 20px 40px;
+}
+
+.mobile-pagination-card {
+    background-color: #FFFFFF;
+    border-radius: 18px;
+    box-shadow: 0px 10px 24px rgba(150, 220, 231, 0.3);
+    padding: 20px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.mobile-pagination-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
-    padding: 10px 0;
+    gap: 16px;
 }
 
-.pagination-info {
+.mobile-pagination-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mobile-pagination-label {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.mobile-pagination-subtitle {
     font-size: 0.9rem;
     color: var(--secondary-color);
 }
 
-.pagination-controls {
-    display: flex;
-    gap: 5px;
+.mobile-pagination-select {
+    width: 78px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    font-weight: 600;
+    color: #1a1a1a;
+    background-color: #FFFFFF;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.6667 1.33334L6.00001 6.00001L1.33334 1.33334' stroke='%231a1a1a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 12px 8px;
+    appearance: none;
 }
 
-.page-btn {
-    width: 36px;
-    height: 36px;
+.mobile-pagination-nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 6px;
-    border: 1px solid var(--border-color);
-    background: white;
+    overflow: hidden;
+    border-radius: 8px;
 }
 
-.page-btn.active {
+.mobile-page-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    padding: 0 16px;
+    border: 1px solid var(--border-color);
+    background-color: #FFFFFF;
+    color: #1a1a1a;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-left: -1px;
+    transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.mobile-page-btn:first-child {
+    margin-left: 0;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.mobile-page-btn:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.mobile-page-btn.disabled {
+    color: var(--secondary-color);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.mobile-page-btn.active {
     background-color: var(--primary-color);
-    color: white;
+    border-color: var(--primary-color);
+}
+
+.mobile-page-btn:not(.disabled):not(.active):hover {
+    color: var(--primary-color);
     border-color: var(--primary-color);
 }
 
@@ -266,7 +335,6 @@ body {
 }
 
 .modal-footer {
-    border-top: 1px solid var(--border-color);
     padding: 20px 25px;
     display: flex;
     justify-content: space-between;
@@ -374,7 +442,9 @@ body {
 }
 
 .desktop-pagination {
-    padding: 40px 0 60px;
+    border-top: 1px solid #E1E8EE;
+    margin-top: 0;
+    padding: 24px 24px 28px;
 }
 
 .desktop-pagination-wrapper {
@@ -382,18 +452,14 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 32px;
-    padding: 20px 28px;
-    background-color: #FFFFFF;
-    border-radius: 18px;
-    box-shadow: 0px 12px 30px rgba(150, 220, 231, 0.35);
+    gap: 24px;
 }
 
 .desktop-pagination-left {
     display: flex;
     align-items: center;
-    gap: 28px;
     flex-wrap: wrap;
+    gap: 24px;
 }
 
 .desktop-pagination-info {

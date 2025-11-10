@@ -19,10 +19,10 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h1 class="page-title mb-0">Posts</h1>
-                    <button class="btn btn-primary mobile-view" style="width: 40px; height: 36px; display: flex; align-items: center; justify-content: center;" data-bs-toggle="modal" data-bs-target="#createPostModal">
+                    <button id="openCreate" class="btn btn-primary mobile-view" style="width: 40px; height: 36px; display: flex; align-items: center; justify-content: center;">
                         <i class="bi bi-plus icon-bold"></i>
                     </button>
-                    <button class="btn btn-primary desktop-view" data-bs-toggle="modal" data-bs-target="#createPostModal">
+                    <button id="openCreateDesktop" class="btn btn-primary desktop-view">
                     <i class="bi bi-plus"></i> Add Post
                 </button>                
                 </div>
@@ -69,283 +69,102 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>2025.02.11</td>
-                                <td><span class="group-badge">News</span></td>
-                                <td>Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at laculis</td>
-                                <td>Grace Wilson</td>
-                                <td class="text-end">
-                                    <div class="action-buttons flex-row justify-content-end">
-                                        <button class="btn-icon btn-edit" data-bs-toggle="modal" data-bs-target="#editPostModal">
-                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg" alt="Edit"></i>
-                                        </button>
-                                        <button class="btn-icon btn-delete">
-                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg" alt="Delete"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2025.02.11</td>
-                                <td><span class="group-badge">News</span></td>
-                                <td>Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at laculis</td>
-                                <td>Grace Wilson</td>
-                                <td class="text-end">
-                                    <div class="action-buttons flex-row justify-content-end">
-                                        <button class="btn-icon btn-edit" data-bs-toggle="modal" data-bs-target="#editPostModal">
-                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg" alt="Edit"></i>
-                                        </button>
-                                        <button class="btn-icon btn-delete">
-                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg" alt="Delete"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2025.02.11</td>
-                                <td><span class="group-badge">News</span></td>
-                                <td>Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at laculis</td>
-                                <td>Grace Wilson</td>
-                                <td class="text-end">
-                                    <div class="action-buttons flex-row justify-content-end">
-                                        <button class="btn-icon btn-edit" data-bs-toggle="modal" data-bs-target="#editPostModal">
-                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg" alt="Edit"></i>
-                                        </button>
-                                        <button class="btn-icon btn-delete">
-                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg" alt="Delete"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2025.02.11</td>
-                                <td><span class="group-badge">News</span></td>
-                                <td>Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at laculis</td>
-                                <td>Grace Wilson</td>
-                                <td class="text-end">
-                                    <div class="action-buttons flex-row justify-content-end">
-                                        <button class="btn-icon btn-edit" data-bs-toggle="modal" data-bs-target="#editPostModal">
-                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg" alt="Edit"></i>
-                                        </button>
-                                        <button class="btn-icon btn-delete">
-                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg" alt="Delete"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2025.02.11</td>
-                                <td><span class="group-badge">News</span></td>
-                                <td>Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at laculis</td>
-                                <td>Grace Wilson</td>
-                                <td class="text-end">
-                                    <div class="action-buttons flex-row justify-content-end">
-                                        <button class="btn-icon btn-edit" data-bs-toggle="modal" data-bs-target="#editPostModal">
-                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg" alt="Edit"></i>
-                                        </button>
-                                        <button class="btn-icon btn-delete">
-                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg" alt="Delete"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
+                            <?php require __DIR__ . '/_new_desktop_grid.php'; ?>
                         </tbody>
                     </table>
+                    <?php
+                        $page = isset($page) ? (int)$page : 1;
+                        $perPage = isset($perPage) ? (int)$perPage : 5;
+                        $total = isset($total) ? (int)$total : (isset($posts) ? count($posts) : 0);
+                        $totalPages = isset($totalPages) ? (int)$totalPages : 1;
+                        $buildPages = function(int $page, int $totalPages): array {
+                            if ($totalPages <= 6) {
+                                return range(1, max(1, $totalPages));
+                            }
+                            return [1,2,3,'…', max(1,$totalPages-1), $totalPages];
+                        };
+                        $pagesList = $buildPages($page, $totalPages);
+                    ?>
                     <div class="desktop-pagination desktop-view">
-                <div class="desktop-pagination-wrapper w-100">
-                    <div class="desktop-pagination-left">
-                        <div class="desktop-pagination-info">
-                            <span class="desktop-pagination-label">Rodomų įrašų skaičius</span>
-                            <span class="desktop-pagination-subtitle">Dabar rodoma 5 iš 100</span>
+                        <div class="desktop-pagination-wrapper">
+                            <div class="desktop-pagination-left">
+                                <div class="desktop-pagination-info">
+                                    <span class="desktop-pagination-label">Rodomų įrašų skaičius</span>
+                                    <span class="desktop-pagination-subtitle">Dabar rodoma <?= $perPage ?> iš <?= $total ?></span>
+                                </div>
+                                <select class="form-select desktop-pagination-select">
+                                    <option value="5" <?= $perPage === 5 ? 'selected' : '' ?>>5</option>
+                                    <option value="10" <?= $perPage === 10 ? 'selected' : '' ?>>10</option>
+                                    <option value="25" <?= $perPage === 25 ? 'selected' : '' ?>>25</option>
+                                    <option value="50" <?= $perPage === 50 ? 'selected' : '' ?>>50</option>
+                                </select>
+                            </div>
+                            <div class="desktop-pagination-nav" data-current="<?= $page ?>" data-total="<?= $totalPages ?>">
+                                <button class="desktop-page-btn desktop-page-btn-prev <?= $page <= 1 ? 'disabled' : '' ?>" data-page="prev">Buvęs</button>
+                                <?php foreach ($pagesList as $p): ?>
+                                    <?php if ($p === '…'): ?>
+                                        <button class="desktop-page-btn dots" disabled>...</button>
+                                    <?php else: ?>
+                                        <button class="desktop-page-btn <?= ($p === $page) ? 'active' : '' ?>" data-page="<?= $p ?>"><?= $p ?></button>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                                <button class="desktop-page-btn desktop-page-btn-next <?= $page >= $totalPages ? 'disabled' : '' ?>" data-page="next">Kitas</button>
+                            </div>
                         </div>
-                        <select class="form-select desktop-pagination-select">
-                            <option>5</option>
-                            <option>10</option>
-                            <option>25</option>
-                            <option>50</option>
-                        </select>
                     </div>
-                    <div class="desktop-pagination-nav">
-                        <button class="desktop-page-btn desktop-page-btn-prev disabled">Buvęs</button>
-                        <button class="desktop-page-btn active">1</button>
-                        <button class="desktop-page-btn">2</button>
-                        <button class="desktop-page-btn">3</button>
-                        <button class="desktop-page-btn dots" disabled>...</button>
-                        <button class="desktop-page-btn">8</button>
-                        <button class="desktop-page-btn">9</button>
-                        <button class="desktop-page-btn">10</button>
-                        <button class="desktop-page-btn desktop-page-btn-next">Kitas</button>
-                    </div>
-                </div>
-            </div>
                 </div>
             </div>
 
             <div class="mobile-posts-list main-container mobile-view">
-                <div class="mobile-post-card">
-                    <div class="mobile-post-header">
-                        <span class="mobile-post-group">News</span>
-                        <span class="mobile-post-date">2025.02.11</span>
+                <?php require __DIR__ . '/_mobile_grid.php'; ?>
+            </div>
+            <div class="mobile-pagination mobile-view">
+                <div class="mobile-pagination-card">
+                    <div class="mobile-pagination-top">
+                        <div class="mobile-pagination-info">
+                            <span class="mobile-pagination-label">Rodomų įrašų skaičius</span>
+                            <span class="mobile-pagination-subtitle">Dabar rodoma <?= $perPage ?> iš <?= $total ?></span>
+                        </div>
+                        <select class="form-select mobile-pagination-select">
+                            <option value="5" <?= $perPage === 5 ? 'selected' : '' ?>>5</option>
+                            <option value="10" <?= $perPage === 10 ? 'selected' : '' ?>>10</option>
+                            <option value="25" <?= $perPage === 25 ? 'selected' : '' ?>>25</option>
+                            <option value="50" <?= $perPage === 50 ? 'selected' : '' ?>>50</option>
+                        </select>
                     </div>
-                    <div class="mobile-post-content">
-                        Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at iaculis ornare tellus semper.
-                    </div>
-                    <div class="mobile-post-author">
-                        Author:<br> Grace Wilson
-                    </div>
-                    <div class="action-buttons mt-2 flex-row justify-content-end">
-                        <button class="btn-icon btn-edit" data-bs-toggle="modal" data-bs-target="#editPostModal">
-                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg"></i>
-                        </button>
-                        <button class="btn-icon btn-delete">
-                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="mobile-post-card">
-                    <div class="mobile-post-header">
-                        <span class="mobile-post-group">Marketing</span>
-                        <span class="mobile-post-date">2025.02.11</span>
-                    </div>
-                    <div class="mobile-post-content">
-                        Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at iaculis ornare tellus semper.
-                    </div>
-                    <div class="mobile-post-author">
-                    Author:<br> Grace Wilson
-                    </div>
-                    <div class="action-buttons mt-2 flex-row justify-content-end">
-                        <button class="btn-icon btn-edit" data-bs-toggle="modal" data-bs-target="#editPostModal">
-                            <i ><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg"></i>
-                        </button>
-                        <button class="btn-icon btn-delete">
-                            <i ><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="mobile-post-card">
-                    <div class="mobile-post-header">
-                        <span class="mobile-post-group">Design</span>
-                        <span class="mobile-post-date">2025.02.11</span>
-                    </div>
-                    <div class="mobile-post-content">
-                        Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at iaculis ornare tellus semper.
-                    </div>
-                    <div class="mobile-post-author">
-                    Author:<br> Grace Wilson
-
-                    </div>
-                    <div class="action-buttons mt-2 flex-row justify-content-end">
-                        <button class="btn-icon btn-edit" data-bs-toggle="modal" data-bs-target="#editPostModal">
-                            <i ><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg"></i>
-                        </button>
-                        <button class="btn-icon btn-delete">
-                            <i ><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg"></i>
-                        </button>
+                    <div class="mobile-pagination-nav" data-current="<?= $page ?>" data-total="<?= $totalPages ?>">
+                        <button class="mobile-page-btn prev <?= $page <= 1 ? 'disabled' : '' ?>" data-page="prev">Buvęs</button>
+                        <?php foreach ($pagesList as $p): ?>
+                            <?php if ($p === '…'): ?>
+                                <button class="mobile-page-btn dots" disabled>...</button>
+                            <?php else: ?>
+                                <button class="mobile-page-btn <?= ($p === $page) ? 'active' : '' ?>" data-page="<?= $p ?>"><?= $p ?></button>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        <button class="mobile-page-btn next <?= $page >= $totalPages ? 'disabled' : '' ?>" data-page="next">Kitas</button>
                     </div>
                 </div>
             </div>
-            
         </div>
 
-    <!-- Create Post Modal -->
-    <div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
+    <!-- Post Modal (Create/Edit) -->
+    <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createPostModalLabel">Post create</h5>
+                    <h5 class="modal-title" id="postModalLabel">Post create</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Person</label>
-                            <select class="form-control">
-                                <option>Select a person</option>
-                                <option>Grace Wilson</option>
-                                <option>Delilah Kimber</option>
-                                <option>John Smith</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Date</label>
-                            <input type="text" class="form-control" placeholder="Select date" id="createDateInput" data-bs-toggle="modal" data-bs-target="#calendarModal" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Content</label>
-                        <textarea class="form-control form-textarea" placeholder="Create content..." maxlength="255"></textarea>
-                        <div class="char-count">255 symbols left</div>
-                    </div>
-                </div>
-                <div class="modal-footer d-flex flex-column-reverse flex-md-row  gap-2">
-                    <button type="button" class="btn btn-secondary flex-fill form-btn-width" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary flex-fill form-btn-width">Save</button>
+                    <?php require __DIR__ . '/_post_form.php'; ?>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Edit Post Modal -->
-    <div class="modal fade" id="editPostModal" tabindex="-1" aria-labelledby="editPostModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editPostModalLabel">Post edit</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Person</label>
-                            <select class="form-control">
-                                <option>Delilah Kimber</option>
-                                <option>Grace Wilson</option>
-                                <option>John Smith</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Date</label>
-                            <input type="text" class="form-control" value="2024-12-01" id="editDateInput" data-bs-toggle="modal" data-bs-target="#calendarModal" readonly>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Content</label>
-                        <textarea class="form-control form-textarea" maxlength="255">Lorem ipsum dolor sit amet consectetur. Leo turpis ut posuere urna lobortis sit. Urna sodales pellentesque facilisis eleifend.</textarea>
-                        <div class="char-count">130 symbols left</div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Confirm editing</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Calendar Modal -->
-    <div class="modal fade" id="calendarModal" tabindex="-1" aria-labelledby="calendarModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="calendarModalLabel">Calendar</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <button class="btn btn-sm btn-secondary"><i class="bi bi-chevron-left"></i></button>
-                        <h6 class="mb-0">January, 2022</h6>
-                        <button class="btn btn-sm btn-secondary"><i class="bi bi-chevron-right"></i></button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
- 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/js/app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         $(document).ready(function() {
@@ -360,33 +179,23 @@
                 charCount.text(remaining + ' symbols left');
             });
             
-            // Calendar date selection
-            let selectedDateInput = null;
-            
-            $('#createDateInput, #editDateInput').on('click', function() {
-                selectedDateInput = $(this);
-            });
-            
-            $('.calendar td:not(.other-month)').on('click', function() {
-                if (selectedDateInput) {
-                    const day = $(this).text();
-                    const monthYear = $('#calendarModal .modal-body h6').text();
-                    selectedDateInput.val(`${day} ${monthYear}`);
-                    
-                    // Close the calendar modal
-                    const calendarModal = bootstrap.Modal.getInstance(document.getElementById('calendarModal'));
-                    calendarModal.hide();
-                }
-            });
-            
-            // Initialize modals
-            const createPostModal = new bootstrap.Modal(document.getElementById('createPostModal'));
-            const editPostModal = new bootstrap.Modal(document.getElementById('editPostModal'));
-            const calendarModal = new bootstrap.Modal(document.getElementById('calendarModal'));
             flatpickr("#dateFilter", {
                 dateFormat: "Y-m-d",
                 allowInput: true,
                 placeholder: "Select date"
+            });
+            flatpickr("#createDateInput", {
+                dateFormat: "Y-m-d",
+                allowInput: true,
+                placeholder: "Select date"
+            });
+            // Open modal using shared form
+            $('#openCreate, #openCreateDesktop').on('click', function(){
+                $('#postModalLabel').text('Create Post');
+                $('#postForm')[0].reset();
+                $('#postForm [name=id]').val('');
+                const modal = new bootstrap.Modal(document.getElementById('postModal'));
+                modal.show();
             });
         });
     </script>

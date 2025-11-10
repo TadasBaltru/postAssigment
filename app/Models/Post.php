@@ -12,7 +12,7 @@ final class Post extends Model
 	/**
 	 * @param array{group_id?: int|null, date?: string|null} $filters
 	 */
-	public function all(array $filters = []): array
+	public function all(array $filters = [], ?int $limit = null, ?int $offset = null): array
 	{
 		$where = [];
 		$types = '';
@@ -58,6 +58,12 @@ final class Post extends Model
 			$sql .= ' WHERE ' . implode(' AND ', $where);
 		}
 		$sql .= ' ORDER BY p.post_date DESC, p.id DESC';
+		if ($limit !== null) {
+			$sql .= ' LIMIT ' . (int) $limit;
+			if ($offset !== null) {
+				$sql .= ' OFFSET ' . (int) $offset;
+			}
+		}
 
 		$stmt = $this->db()->prepare($sql);
 		if ($stmt === false) {
@@ -79,6 +85,60 @@ final class Post extends Model
 		}
 		$stmt->close();
 		return $rows;
+	}
+
+	/**
+	 * @param array{group_id?: int|null, date?: string|null} $filters
+	 */
+	public function countAll(array $filters = []): int
+	{
+		$where = [];
+		$types = '';
+		$params = [];
+
+		$groupId = isset($filters['group_id']) ? (int) $filters['group_id'] : 0;
+		if ($groupId > 0) {
+			$where[] = 'g.id = ?';
+			$types .= 'i';
+			$params[] = $groupId;
+		}
+
+		$date = isset($filters['date']) ? trim((string) $filters['date']) : '';
+		if ($date !== '') {
+			$where[] = 'DATE(p.post_date) = ?';
+			$types .= 's';
+			$params[] = $date;
+		}
+
+		$sql = 'SELECT COUNT(*) AS cnt
+			FROM posts p
+			JOIN persons per 
+				ON per.id = (
+					SELECT id 
+					FROM persons 
+					WHERE base_id = p.person_base_id 
+					AND valid_from <= p.post_date
+					ORDER BY valid_from DESC
+					LIMIT 1
+				)
+			JOIN `groups` g 
+				ON g.id = per.group_id';
+		if ($where) {
+			$sql .= ' WHERE ' . implode(' AND ', $where);
+		}
+		$stmt = $this->db()->prepare($sql);
+		if ($types !== '') {
+			$stmt->bind_param($types, ...$params);
+		}
+		if (!$stmt->execute()) {
+			$err = $stmt->error;
+			$stmt->close();
+			throw new \RuntimeException('Execute failed: ' . $err);
+		}
+		$res = $stmt->get_result();
+		$row = $res->fetch_assoc();
+		$stmt->close();
+		return (int)($row['cnt'] ?? 0);
 	}
 
 	public function find($id): array
