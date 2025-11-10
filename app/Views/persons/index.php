@@ -3,452 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Posts Management</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Posts Management</title>  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/css/new_app.css">
+  
 
-    <style>
-        :root {
-            --primary-color: #96DCE7;
-            --secondary-color: #9fa6b2;
-            --border-color: #9fa6b2;
-            --card-bg: #f8f9fa;
-            --primary-hover-color: #61C0CF;
-            --posts-list-color: #E9FCFF;
-        }
-        
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            color: #333;
-            background-color: #fff;
-        }
-        
-        .main-container {
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .page-title {
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #1a1a1a;
-        }
-        
-        .filter-section {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-        
-        .search-container {
-            flex-grow: 1;
-            max-width: 400px;
-        }
-        
-        .search-input {
-            border-radius: 8px;
-            padding: 10px 15px 10px 0 !important;
-            border: 1px solid var(--border-color);
-            border-left: none!important;
-            width: 100%;
-        }
-
-        
-        .filter-select {
-            border-radius: 8px;
-            padding: 10px 15px;
-            border: 1px solid var(--border-color);
-            background-color: white;
-            min-width: 150px;
-        }
-        
-        .divider {
-            border-top: 1px solid var(--border-color);
-            margin: 25px 0;
-        }
-        
-        .section-title {
-            font-weight: 600;
-            margin-bottom: 15px;
-            font-size: 1.25rem;
-        }
-        
-        .post-item {
-            display: flex;
-            border-bottom: 1px solid var(--border-color);
-            padding: 15px 0;
-            gap: 15px;
-        }
-        
-        .post-date-group {
-            min-width: 150px;
-            font-weight: 500;
-        }
-        
-        .post-content {
-            flex-grow: 1;
-        }
-        
-        .post-author {
-            min-width: 150px;
-            text-align: right;
-        }
-        
-        .action-buttons {
-            display: flex;
-            justify-content: flex-end; /* optional */
-            overflow: hidden;
-            height: 44px;
-            width: auto; /* fixed width */
-        }
-
-        .action-buttons .btn-icon {
-            height: 100%;
-            width: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--secondary-color);
-            cursor: pointer;
-            background-color: #FFFFFF;
-
-        }
-
-        .btn-edit {
-            border: 1px solid var(--border-color);
-            border-right: none;       /* remove right border to join with next */
-            border-top-left-radius: 8px;
-            border-bottom-left-radius: 8px;
-        }
-
-        .btn-delete {
-            border: 1px solid var(--border-color);
-            border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
-        }
-
-        .action-buttons .btn-icon:hover {
-            color: var(--primary-color);
-
-        }
-
-        
-        .posts-list {
-            background-color: var(--posts-list-color);
-        }
-        .mobile-posts-list {
-            background-color: var(--posts-list-color);
-        }
-        /* Mobile Styles */
-        .mobile-post-card {
-            background-color: #FFFFFF;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        
-        .mobile-post-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        
-        .mobile-post-group {
-            font-weight: 600;
-            color: black;
-            border: 1px solid var(--posts-list-color);
-            background-color: var(--posts-list-color);
-            padding: 2px 8px;
-            border-radius: 22px;
-        }
-        
-        
-        .mobile-post-content {
-            margin-bottom: 10px;
-            line-height: 1.4;
-            color: black;
-        }
-        
-        .mobile-post-author {
-            font-size: 0.9rem;
-            color: black;
-        }
-        
-        .mobile-pagination {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            padding: 10px 0;
-        }
-        
-        .pagination-info {
-            font-size: 0.9rem;
-            color: var(--secondary-color);
-        }
-        
-        .pagination-controls {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .page-btn {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            background: white;
-        }
-        
-        .page-btn.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        /* Modal Styles */
-        .modal-content {
-            border-radius: 12px;
-            border: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-        
-        .modal-header {
-            border-bottom: 1px solid var(--border-color);
-            padding: 20px 25px;
-        }
-        
-        .modal-title {
-            font-weight: 600;
-            font-size: 1.25rem;
-        }
-        
-        .modal-body {
-            padding: 25px;
-        }
-        
-        .form-row {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .form-group {
-            flex: 1;
-            margin-bottom: 0;
-        }
-        
-        .form-label {
-            font-weight: 500;
-            margin-bottom: 8px;
-            display: block;
-        }
-        
-        .form-control {
-            border-radius: 8px;
-            padding: 10px 15px;
-            border: 1px solid var(--border-color);
-            width: 100%;
-        }
-
-        .form-textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-        
-        .char-count {
-            text-align: left;
-            font-size: 0.9rem;
-            color: var(--secondary-color);
-            margin-top: 5px;
-        }
-        
-        .modal-footer {
-            border-top: 1px solid var(--border-color);
-            padding: 20px 25px;
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: black;
-            box-shadow: 0px 1px 4.3px #818181;
-            font-size: 1.2rem;
-            &:hover {
-                background-color: var(--primary-hover-color);
-            }
-        }
-        
-        .btn-secondary {
-            background-color: white;
-            color: #333;
-            border: 1px solid var(--border-color);
-            font-size: 1.2rem;
-        }
-
-        .icon-bold {
-            font-size: 1.5rem !important;
-            text-shadow: 0 0 1px currentColor;
-        }
-        .btn-edit img {
-            width: 40px;
-            height: 42px;
-            object-fit: fill;
-        }
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .filter-section {
-                flex-direction: column;
-            }
-            
-            .search-container {
-                max-width: 100%;
-            }
-            
-            .desktop-view {
-                display: none;
-            }
-            
-            .mobile-view {
-                display: block;
-            }
-            
-            .form-row {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .modal-body {
-                padding: 20px;
-            }
-            .form-btn-width {
-                width: 100% !important;
-             }
-        }
-        
-        @media (min-width: 769px) {
-            .mobile-view {
-                display: none;
-            }
-            
-            .desktop-view {
-                display: block;
-            }
-            .form-btn-width {
-            width: 45% !important;
-         }
-        }
-
-        /* Calendar Styles */
-        .calendar {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .calendar th {
-            text-align: center;
-            padding: 10px;
-            font-weight: 500;
-            color: var(--secondary-color);
-        }
-        
-        .calendar td {
-            text-align: center;
-            padding: 10px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        
-        .calendar td:hover {
-            background-color: #f0f0f0;
-        }
-        
-        .calendar td.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .calendar .other-month {
-            color: #ccc;
-        }
-        .globe-icon-container {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        background-color: var(--Featured-fill, #E9FCFF);        
-        display: flex;               /* make container flex */
-        align-items: center;         /* vertical center */
-        justify-content: center;     /* horizontal center */
-    }
-    .globe-icon {
-
-        display: block;
-        border: 6px solid #CDF2F7;
-        background-color: #CDF2F7;
-        border-radius: 50%;
-    }
-    .flatpickr-day.selected {
-        background-color: var(--primary-color) !important;
-        border-color: var(--primary-color) !important;
-        color: black !important;
-    }
-    </style>
 </head>
 <body>
 
         
-        <!-- Desktop View -->
-        <div class="desktop-view main-container">
-        <i class="globe-icon-container"><img class="globe-icon " src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/globe-01.svg"></i>
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="page-title mb-0 bold"> Posts</h1>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createPostModal">
-                    <i class="bi bi-plus"></i> Add Post
-                </button>
-            </div>
-            
-            <div class="filter-section">
-                <div class="search-container">
-                    <input type="text" class="search-input" placeholder="Search for posts...">
-                </div>
-                <select class="filter-select" id="groupFilter">
-                    <option>Group filter</option>
-                    <option>Design</option>
-                    <option>News</option>
-                    <option>Marketing</option>
-                    <option>Group x</option>
-                    <option>Group x</option>
-                    <option>Group x</option>
-                    <option>Group x</option>
-                    <option>Group x</option>
-                    <option>Group x</option>
+        
+            <div class="main-container">
+                <i class="globe-icon-container"><img class="globe-icon " src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/globe-01.svg"></i>
 
-                </select>
-                <!-- <input class="filter-select" id="dateFilter" type="text" placeholder="Select date"> -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h1 class="page-title mb-0">Posts</h1>
+                    <button class="btn btn-primary mobile-view" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;" data-bs-toggle="modal" data-bs-target="#createPostModal">
+                        <i class="bi bi-plus icon-bold"></i>
+                    </button>
+                    <button class="btn btn-primary desktop-view" data-bs-toggle="modal" data-bs-target="#createPostModal">
+                    <i class="bi bi-plus"></i> Add Post
+                </button>                
+                </div>
+
+                
+                <div class="row g-2 g-md-3 align-items-stretch mb-3 filter-row">
+                    <div class="col-12 col-md-6">
+                        <div class="search-container input-group h-100">
+                            <span class="input-group-text" style="background-color: #FFFFFF !important; border: 1px solid var(--border-color); border-right: none;">
+                                <img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/search-lg.svg" alt="search" width="16" height="16">
+                            </span>
+                            <input type="text" class="form-control search-input" placeholder="Search for posts...">
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <select class="filter-select form-select h-100" id="mobileGroupFilter">
+                            <option>Group filter</option>
+                            <option>Design</option>
+                            <option>News</option>
+                            <option>Marketing</option>
+                            <option>Group x</option>
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="input-group date-filter-group h-100">
+                            <span class="input-group-text" style="background-color: #FFFFFF !important; border: 1px solid var(--border-color); border-right: none;">
+                                <img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/calendar.svg" alt="calendar" width="16" height="16">
+                            </span>
+                            <input class="form-control search-input" id="dateFilter" type="text" placeholder="Select date">
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-            <div class="divider"></div>
-            
-            <h2 class="section-title">News</h2>
-            
-            <div class="posts-list">
+            <div class="posts-list desktop-view">
                 <div class="post-item">
                     <div class="post-date-group">2025.02.11 News</div>
                     <div class="post-content">
@@ -503,44 +111,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Mobile View -->
-        <div class="mobile-view">
-            <div class="main-container">
-                <i class="globe-icon-container"><img class="globe-icon " src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/globe-01.svg"></i>
-
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h1 class="page-title mb-0">Posts</h1>
-                    <button class="btn btn-primary" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;" data-bs-toggle="modal" data-bs-target="#createPostModal">
-                        <i class="bi bi-plus icon-bold"></i>
-                    </button>
-                </div>
-                
-                <div class="search-container mb-3 input-group">
-                    <span class="input-group-text" style="background-color: #FFFFFF !important; border: 1px solid var(--border-color); border-right: none;">
-                        <img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/search-lg.svg" alt="search" width="16" height="16">
-                    </span>
-                    <input type="text" class="form-control search-input" placeholder="Search for posts...">
-                </div>
-                
-                <div class="d-flex mb-3 flex-row">
-                    <select class="filter-select form-select me-2 w-50" id="mobileGroupFilter">
-                        <option>Group filter</option>
-                        <option>Design</option>
-                        <option>News</option>
-                        <option>Marketing</option>
-                        <option>Group x</option>
-                    </select>
-                    <div class="input-group w-50">
-                        <span class="input-group-text " style="background-color: #FFFFFF !important; border: 1px solid var(--border-color); border-right: none;">
-                            <img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/calendar.svg" alt="calendar" width="16" height="16">
-                        </span>
-                        <input class="form-control search-input " style="width:85%" id="dateFilter" type="text" placeholder="Select date">
-                    </div>
-                </div>
-            </div>
-            <div class="mobile-posts-list main-container">
+            <div class="mobile-posts-list main-container mobile-view">
                 <div class="mobile-post-card">
                     <div class="mobile-post-header">
                         <span class="mobile-post-group">News</span>
@@ -621,7 +192,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- Create Post Modal -->
     <div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
