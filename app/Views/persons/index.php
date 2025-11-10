@@ -19,7 +19,7 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h1 class="page-title mb-0">Posts</h1>
-                    <button class="btn btn-primary mobile-view" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;" data-bs-toggle="modal" data-bs-target="#createPostModal">
+                    <button class="btn btn-primary mobile-view" style="width: 40px; height: 36px; display: flex; align-items: center; justify-content: center;" data-bs-toggle="modal" data-bs-target="#createPostModal">
                         <i class="bi bi-plus icon-bold"></i>
                     </button>
                     <button class="btn btn-primary desktop-view" data-bs-toggle="modal" data-bs-target="#createPostModal">
@@ -56,61 +56,131 @@
                     </div>
                 </div>
             </div>
-            <div class="posts-list desktop-view">
-                <div class="post-item">
-                    <div class="post-date-group">2025.02.11 News</div>
-                    <div class="post-content">
-                        <div>Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at laculis</div>
-                    </div>
-                    <div class="post-author">
-                        Grace Wilson
-                        <div class="action-buttons">
-                            <button class="btn-icon" data-bs-toggle="modal" data-bs-target="#editPostModal">
-                                <i ><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg"></i>
-                            </button>
-                            <button class="btn-icon">
-                                <i ><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg"></i>
-                            </button>
+            <div class="posts-list desktop-view py-4">
+                <div class="table-responsive posts-table-wrapper main-container">
+                    <table class="table posts-table align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="width: 11%;">Date</th>
+                                <th scope="col" style="width: 11%;">Group</th>
+                                <th scope="col" style="width: 50%;">Post</th>
+                                <th scope="col" style="width: 11%;">Author</th>
+                                <th scope="col" style="width: 11%;">Veiksmai</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2025.02.11</td>
+                                <td><span class="group-badge">News</span></td>
+                                <td>Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at laculis</td>
+                                <td>Grace Wilson</td>
+                                <td class="text-end">
+                                    <div class="action-buttons flex-row justify-content-end">
+                                        <button class="btn-icon btn-edit" data-bs-toggle="modal" data-bs-target="#editPostModal">
+                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg" alt="Edit"></i>
+                                        </button>
+                                        <button class="btn-icon btn-delete">
+                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg" alt="Delete"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2025.02.11</td>
+                                <td><span class="group-badge">News</span></td>
+                                <td>Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at laculis</td>
+                                <td>Grace Wilson</td>
+                                <td class="text-end">
+                                    <div class="action-buttons flex-row justify-content-end">
+                                        <button class="btn-icon btn-edit" data-bs-toggle="modal" data-bs-target="#editPostModal">
+                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg" alt="Edit"></i>
+                                        </button>
+                                        <button class="btn-icon btn-delete">
+                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg" alt="Delete"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2025.02.11</td>
+                                <td><span class="group-badge">News</span></td>
+                                <td>Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at laculis</td>
+                                <td>Grace Wilson</td>
+                                <td class="text-end">
+                                    <div class="action-buttons flex-row justify-content-end">
+                                        <button class="btn-icon btn-edit" data-bs-toggle="modal" data-bs-target="#editPostModal">
+                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg" alt="Edit"></i>
+                                        </button>
+                                        <button class="btn-icon btn-delete">
+                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg" alt="Delete"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2025.02.11</td>
+                                <td><span class="group-badge">News</span></td>
+                                <td>Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at laculis</td>
+                                <td>Grace Wilson</td>
+                                <td class="text-end">
+                                    <div class="action-buttons flex-row justify-content-end">
+                                        <button class="btn-icon btn-edit" data-bs-toggle="modal" data-bs-target="#editPostModal">
+                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg" alt="Edit"></i>
+                                        </button>
+                                        <button class="btn-icon btn-delete">
+                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg" alt="Delete"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2025.02.11</td>
+                                <td><span class="group-badge">News</span></td>
+                                <td>Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at laculis</td>
+                                <td>Grace Wilson</td>
+                                <td class="text-end">
+                                    <div class="action-buttons flex-row justify-content-end">
+                                        <button class="btn-icon btn-edit" data-bs-toggle="modal" data-bs-target="#editPostModal">
+                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg" alt="Edit"></i>
+                                        </button>
+                                        <button class="btn-icon btn-delete">
+                                            <i><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg" alt="Delete"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="desktop-pagination desktop-view">
+                <div class="desktop-pagination-wrapper w-100">
+                    <div class="desktop-pagination-left">
+                        <div class="desktop-pagination-info">
+                            <span class="desktop-pagination-label">Rodomų įrašų skaičius</span>
+                            <span class="desktop-pagination-subtitle">Dabar rodoma 5 iš 100</span>
                         </div>
+                        <select class="form-select desktop-pagination-select">
+                            <option>5</option>
+                            <option>10</option>
+                            <option>25</option>
+                            <option>50</option>
+                        </select>
                     </div>
-                </div>
-                
-                <div class="post-item">
-                    <div class="post-date-group">2025.02.11 Marketing</div>
-                    <div class="post-content">
-                        <div>Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at laculis</div>
-                    </div>
-                    <div class="post-author">
-                        Grace Wilson
-                        <div class="action-buttons">
-                            <button class="btn-icon" data-bs-toggle="modal" data-bs-target="#editPostModal">
-                                <i ><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg"></i>
-                            </button>
-                            <button class="btn-icon">
-                                <i ><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="post-item">
-                    <div class="post-date-group">2025.02.11 Design</div>
-                    <div class="post-content">
-                        <div>Lorem ipsum dolor sit amet consectetur. Diam proin quis at odio id eros vel. Faucibus blandit dictumst amet at laculis</div>
-                    </div>
-                    <div class="post-author">
-                        Grace Wilson
-                        <div class="action-buttons">
-                            <button class="btn-icon" data-bs-toggle="modal" data-bs-target="#editPostModal">
-                                <i ><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/edit-button.svg"></i>
-                            </button>
-                            <button class="btn-icon">
-                                <i ><img src="<?= defined('BASE_PATH') ? BASE_PATH : '' ?>/assets/icons/trash-01.svg"></i>
-                            </button>
-                        </div>
+                    <div class="desktop-pagination-nav">
+                        <button class="desktop-page-btn desktop-page-btn-prev disabled">Buvęs</button>
+                        <button class="desktop-page-btn active">1</button>
+                        <button class="desktop-page-btn">2</button>
+                        <button class="desktop-page-btn">3</button>
+                        <button class="desktop-page-btn dots" disabled>...</button>
+                        <button class="desktop-page-btn">8</button>
+                        <button class="desktop-page-btn">9</button>
+                        <button class="desktop-page-btn">10</button>
+                        <button class="desktop-page-btn desktop-page-btn-next">Kitas</button>
                     </div>
                 </div>
             </div>
+                </div>
+            </div>
+
             <div class="mobile-posts-list main-container mobile-view">
                 <div class="mobile-post-card">
                     <div class="mobile-post-header">
@@ -177,20 +247,6 @@
                 </div>
             </div>
             
-            <div class="mobile-pagination main-container">
-                <div class="pagination-info">
-                    Rodomy jrasy skaizius<br>
-                    Dabar rodoma 5 iš 100
-                </div>
-                <div class="pagination-controls">
-                    <button class="page-btn">1</button>
-                    <button class="page-btn">2</button>
-                    <button class="page-btn">...</button>
-                    <button class="page-btn">9</button>
-                    <button class="page-btn">0</button>
-                    <button class="page-btn"><i class="bi bi-chevron-right"></i></button>
-                </div>
-            </div>
         </div>
 
     <!-- Create Post Modal -->
@@ -282,75 +338,7 @@
                         <h6 class="mb-0">January, 2022</h6>
                         <button class="btn btn-sm btn-secondary"><i class="bi bi-chevron-right"></i></button>
                     </div>
-                    <table class="calendar">
-                        <thead>
-                            <tr>
-                                <th>Mo</th>
-                                <th>Tu</th>
-                                <th>We</th>
-                                <th>Th</th>
-                                <th>Fr</th>
-                                <th>Sat</th>
-                                <th>Su</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="other-month">26</td>
-                                <td class="other-month">27</td>
-                                <td class="other-month">28</td>
-                                <td class="other-month">29</td>
-                                <td class="other-month">30</td>
-                                <td class="other-month">31</td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>3</td>
-                                <td>4</td>
-                                <td>5</td>
-                                <td>6</td>
-                                <td>7</td>
-                                <td>8</td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td>10</td>
-                                <td>11</td>
-                                <td>12</td>
-                                <td>13</td>
-                                <td>14</td>
-                                <td>15</td>
-                            </tr>
-                            <tr>
-                                <td>16</td>
-                                <td>17</td>
-                                <td>18</td>
-                                <td>19</td>
-                                <td>20</td>
-                                <td>21</td>
-                                <td>22</td>
-                            </tr>
-                            <tr>
-                                <td>23</td>
-                                <td>24</td>
-                                <td>25</td>
-                                <td>26</td>
-                                <td>27</td>
-                                <td>28</td>
-                                <td>29</td>
-                            </tr>
-                            <tr>
-                                <td>30</td>
-                                <td>31</td>
-                                <td class="other-month">1</td>
-                                <td class="other-month">2</td>
-                                <td class="other-month">3</td>
-                                <td class="other-month">4</td>
-                                <td class="other-month">5</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
                 </div>
             </div>
         </div>
